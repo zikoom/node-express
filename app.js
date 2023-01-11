@@ -67,6 +67,6 @@ io.on('connection', (socket) =>{
 
 
 const SOCKET_PORT = 1313;
-http.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
+httpServer.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
 
 module.exports = app;
