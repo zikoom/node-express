@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
 });
 
 //소켓 서버
-const httpServer = require('http').createServer(app);
+const httpServer = require('http').createServer();
 
 const io = require('socket.io')(httpServer, {
   cors: {
