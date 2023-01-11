@@ -8,24 +8,14 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 //소켓 서버
-const httpServer = require('Server').Server(app);
+const httpServer = require('http').createServer();
 
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test')
 
-const io = require('socket.io')(httpServer, {
-  cors: {
-    origin: "*",
-    credentials :true,
-    methods: ["GET", "POST"],
-  }
-});
 
-io.on('connection', (socket) =>{
-  console.log('client connected');
-})
 
 
 
@@ -50,15 +40,27 @@ io.on('connection', (socket) =>{
 // });
 
 // // error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-//   // render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: "*",
+    credentials :true,
+    methods: ["GET", "POST"],
+  }
+});
+
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
 
 
 
