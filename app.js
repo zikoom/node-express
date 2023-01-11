@@ -44,7 +44,7 @@ io.on('connection', (socket) =>{
 
 const SOCKET_PORT = 1313;
 httpServer.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
-
+console.log('제발 돼라 !!');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
