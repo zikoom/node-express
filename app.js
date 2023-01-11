@@ -27,9 +27,14 @@ app.use(function (req, res, next) {
 });
 
 //소켓 서버
-const httpServer = require('http').createServer(app);
+const httpServer = require('http').createServer();
 
-const io = require('socket.io')(httpServer);
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "OPTION"]
+  }
+});
 
 io.on('connection', (socket) =>{
   console.log('client connected');
