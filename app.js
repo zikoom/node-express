@@ -1,9 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const cors = require('cors');
+
+//소켓 서버
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -41,5 +45,13 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
+
+const SOCKET_PORT = 1313;
+http.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
 
 module.exports = app;
