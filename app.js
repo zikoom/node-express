@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-
+app.use(cors());
 //소켓 서버
 const http = require('http').Server(app);
 
@@ -20,6 +20,7 @@ const io = require('socket.io')(http, {
     origin: "*",
     credentials :true,
     methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
   }
 });
 
