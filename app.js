@@ -8,7 +8,22 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 //소켓 서버
-const httpServer = require('http').createServer();
+const httpServer = require('http').createServer(app);
+
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: "*",
+    credentials :true,
+    methods: ["GET", "POST"],
+  }
+});
+
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
+
+const SOCKET_PORT = 1313;
+httpServer.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
 
 
 const indexRouter = require('./routes/index');
@@ -50,23 +65,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-const io = require('socket.io')(httpServer, {
-  cors: {
-    origin: "*",
-    credentials :true,
-    methods: ["GET", "POST"],
-  }
-});
-
-io.on('connection', (socket) =>{
-  console.log('client connected');
-})
 
 
 
 
 
-const SOCKET_PORT = 1313;
-httpServer.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
+
+
 
 module.exports = app;
