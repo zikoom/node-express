@@ -18,7 +18,8 @@ const testRouter = require('./routes/test')
 const io = require('socket.io')(http, {
   cors: {
     origin: "*",
-    credentials :true
+    credentials :true,
+    methods: ["GET", "POST"],
   }
 });
 
