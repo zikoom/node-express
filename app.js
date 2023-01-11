@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-
+app.use(cors());
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
@@ -27,16 +27,9 @@ app.use(function (req, res, next) {
 });
 
 //소켓 서버
-const httpServer = require('http').createServer();
+const httpServer = require('http').createServer(app);
 
-const io = require('socket.io')(httpServer, {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials :true,
-    allowedHeaders: ["my-custom-header"],
-    methods: ["GET", "POST", "OPTION"],
-  }
-});
+const io = require('socket.io')(httpServer);
 
 io.on('connection', (socket) =>{
   console.log('client connected');
@@ -58,7 +51,7 @@ const testRouter = require('./routes/test')
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'pug');
 // app.use(cors());
-// app.use(cors());
+
 // app.use(logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
