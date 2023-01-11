@@ -8,19 +8,18 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 //소켓 서버
-const http = require('http').Server(app);
+const httpServer = require('Server').Server(app);
 
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test')
 
-const io = require('socket.io')(http, {
+const io = require('socket.io')(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials :true,
     methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
   }
 });
 
