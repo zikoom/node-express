@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
 //소켓 서버
 const httpServer = require('http').createServer(app);
 
@@ -38,7 +38,7 @@ const testRouter = require('./routes/test')
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'pug');
-
+// app.use(cors());
 // app.use(cors());
 // app.use(logger('dev'));
 // app.use(express.json());
