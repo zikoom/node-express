@@ -12,7 +12,7 @@ const httpServer = require('http').createServer(app);
 
 const io = require('socket.io')(httpServer, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     credentials :true,
     allowedHeaders: ["my-custom-header"],
     methods: ["GET", "POST", "OPTION"],
