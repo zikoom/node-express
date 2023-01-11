@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
+const app = express();
+
 //소켓 서버
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
@@ -13,7 +15,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test')
 
-const app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
