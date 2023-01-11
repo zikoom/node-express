@@ -9,7 +9,11 @@ const app = express();
 
 //소켓 서버
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  cors: {
+    origin: "*"
+  }
+});
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
