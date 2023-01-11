@@ -17,7 +17,7 @@ const testRouter = require('./routes/test')
 
 const io = require('socket.io')(http, {
   cors: {
-    origin: "*",
+    origin: "http://localhost:3000",
     credentials :true,
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
