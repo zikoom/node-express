@@ -14,7 +14,8 @@ const io = require('socket.io')(httpServer, {
   cors: {
     origin: "*",
     credentials :true,
-    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    methods: ["GET", "POST", "OPTION"],
   }
 });
 
