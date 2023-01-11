@@ -49,15 +49,18 @@ app.use(function(err, req, res, next) {
 });
 
 
-io.on('connection', (socket) =>{
-  console.log('client connected');
-})
 const io = require('socket.io')(http, {
   cors: {
     origin: "*",
     credentials :true
   }
 });
+
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
+
+
 const SOCKET_PORT = 1313;
 http.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
 
