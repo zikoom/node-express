@@ -49,13 +49,12 @@ app.use(function(err, req, res, next) {
 
 
 app.set('port', PORT);
-const server = require('http').createServer(app);
+const server = app.listen(PORT);
+var io = require('socket.io').listen(server);
 console.log('제발 돼라 !!');
 
 
-server.listen(PORT)
-server.on('error', (e) => {'server error: ', e});
-server.on('listening', (e) => {'server listening.: ', e});
+// server.listen(PORT)
 // const io = require('socket.io')(httpServer, {
 //   cors: {
 //     origin: "*",
@@ -69,9 +68,9 @@ server.on('listening', (e) => {'server listening.: ', e});
 //   }
 // });
 
-// io.on('connection', (socket) =>{
-//   console.log('client connected');
-// })
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
 
 
 
