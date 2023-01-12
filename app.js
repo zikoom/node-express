@@ -16,7 +16,12 @@ const io = require('socket.io')(server, {
 });
 
 io.on('connection', (socket) =>{
-  console.log('client connected');
+
+  console.log('client connected. ', socket.id);
+
+  socket.on("disconnect", (reason) => {
+    console.log('socket disconnect: ', socket.id, reason);
+  });
 })
 
 const indexRouter = require('./routes/index');
