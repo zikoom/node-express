@@ -6,43 +6,28 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-// app.use(cors());
-// app.use(function (req, res, next) {
+const PORT = 3500;
+const server = require('http').createServer(app);
+console.log('제발 돼라 !!');
 
-//   // Website you wish to allow to connect
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-
-//   // Request methods you wish to allow
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//   // Request headers you wish to allow
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-//   // Set to true if you need the website to include cookies in the requests sent
-//   // to the API (e.g. in case you use sessions)
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-
-//   // Pass to next layer of middleware
-//   next();
-// });
-
-//소켓 서버
-const httpServer = require('http').createServer(app);
-
-const io = require('socket.io')(httpServer, {
+const io = require('socket.io')(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST", "OPTION"]
+    origin:'*'
   }
 });
+server.listen(PORT)
+// const io = require('socket.io')(httpServer, {
+//   cors: {
+//     origin: "*",
+//     methods: ["GET", "POST", "OPTION"]
+//   }
+// });
 
 io.on('connection', (socket) =>{
   console.log('client connected');
 })
 
-const SOCKET_PORT = 1313;
-httpServer.listen(SOCKET_PORT, () => {console.log('listin: ', SOCKET_PORT)})
-console.log('제발 돼라 !!');
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
