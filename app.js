@@ -1,3 +1,5 @@
+const PORT = 3500;
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -16,6 +18,7 @@ const testRouter = require('./routes/test')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('port', PORT);
 app.use(cors());
 
 app.use(logger('dev'));
@@ -45,7 +48,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-const PORT = 3500;
+
 const server = require('http').createServer(app);
 console.log('제발 돼라 !!');
 
@@ -55,6 +58,8 @@ const io = require('socket.io')(server, {
   }
 });
 server.listen(PORT)
+server.on('error', (e) => {'server error: ', e});
+server.on('listening', (e) => {'server listening.: ', e});
 // const io = require('socket.io')(httpServer, {
 //   cors: {
 //     origin: "*",
