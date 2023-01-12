@@ -6,35 +6,11 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3500;
-const server = require('http').createServer(app);
-console.log('제발 돼라 !!');
-
-const io = require('socket.io')(server, {
-  cors: {
-    origin:'*'
-  }
-});
-server.listen(PORT)
-// const io = require('socket.io')(httpServer, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST", "OPTION"]
-//   }
-// });
-
-io.on('connection', (socket) =>{
-  console.log('client connected');
-})
-
 
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const testRouter = require('./routes/test')
-
-
-
 
 
 // view engine setup
@@ -69,7 +45,26 @@ app.use(function(err, req, res, next) {
 });
 
 
+const PORT = 3500;
+const server = require('http').createServer(app);
+console.log('제발 돼라 !!');
 
+const io = require('socket.io')(server, {
+  cors: {
+    origin:'*'
+  }
+});
+server.listen(PORT)
+// const io = require('socket.io')(httpServer, {
+//   cors: {
+//     origin: "*",
+//     methods: ["GET", "POST", "OPTION"]
+//   }
+// });
+
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
 
 
 
