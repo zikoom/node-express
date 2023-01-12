@@ -8,7 +8,12 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
+io.on('connection', (socket) =>{
+  console.log('client connected');
+})
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -47,34 +52,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
-app.set('port', PORT);
-const server = app.listen(PORT);
-var io = require('socket.io').listen(server);
-console.log('제발 돼라 !!');
-
-
-// server.listen(PORT)
-// const io = require('socket.io')(httpServer, {
-//   cors: {
-//     origin: "*",
-//     methods: ["GET", "POST", "OPTION"]
-//   }
-// });
-
-// const io = require('socket.io')(server, {
-//   cors: {
-//     origin:'*'
-//   }
-// });
-
-io.on('connection', (socket) =>{
-  console.log('client connected');
-})
-
-
-
-
+server.listen(PORT);
 
 
 module.exports = app;
