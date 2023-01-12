@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 // app.use(function (req, res, next) {
 
 //   // Website you wish to allow to connect
@@ -31,7 +31,7 @@ const httpServer = require('http').createServer(app);
 
 const io = require('socket.io')(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST", "OPTION"]
   }
 });
