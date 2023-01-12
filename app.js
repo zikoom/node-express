@@ -18,7 +18,7 @@ const testRouter = require('./routes/test')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.set('port', PORT);
+
 app.use(cors());
 
 app.use(logger('dev'));
@@ -48,7 +48,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-
+app.set('port', PORT);
 const server = require('http').createServer(app);
 console.log('제발 돼라 !!');
 
