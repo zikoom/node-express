@@ -19,6 +19,17 @@ io.on('connection', (socket) =>{
 
   console.log('client connected. ', socket.id);
 
+  socket.emit('init', socket.id);
+
+  //client msg receive
+  socket.on('chat', (msg) => {
+    console.log(`chat recv: ${socket.id} send ${msg}`)
+    //receive success response
+    socket.emit('test: ', msg);
+    //broad cast msg
+
+  })
+
   socket.on("disconnect", (reason) => {
     console.log('socket disconnect: ', socket.id, reason);
   });
