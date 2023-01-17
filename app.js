@@ -15,11 +15,35 @@ const io = require('socket.io')(server, {
   }
 });
 
+
+const users = [];
+
 io.on('connection', (socket) =>{
 
   console.log('client connected. ', socket.id);
+  users.push({id: socket.id});
 
   socket.emit('init', socket.id);
+
+  socket.on('set_nickname_request', (msg) => {
+    console.log('set_nickname_request in. msg: ', msg);
+    const targetUserIdx = users.findIndex(user => user.id === socket.id)
+    if(targetUserIdx !== -1 && users[targetUserIdx].id){
+      users[targetUserIdx] = {
+        ...users[targetUserIdx],
+        nickname: msg
+      }
+      console.log('user after set nickname: ', users[targetUserIdx]);
+      socket.emit('set_nickname_response', msg);
+
+    }else{
+      if(targetUserIdx === -1){
+        console.error('targetUserIdx is -1. msg, socketid: ', msg, socket.id)
+      }else if(users[targetUserIdx].id){
+        console.error('already have id: ', msg, socket.id)
+      }
+    }
+  })
 
   //client msg receive
   socket.on('chat', (msg) => {
