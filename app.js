@@ -23,11 +23,23 @@ io.on('connection', (socket) =>{
 
   //client msg receive
   socket.on('chat', (msg) => {
-    console.log(`chat recv: ${socket.id} send ${msg}`)
+    console.log('chat recv: ', msg);
+    const {text, roomID} = msg;
+    if(roomID){
+      socket.broadcast.to(roomID).emit('other_msg', text);
+      socket.emit('chat_response', text);
+    }else{
+      socket.emit('chat_response', '방에 들어가세요.');
+    }
     //receive success response
-    socket.emit('test: ', msg);
     //broad cast msg
+  })
 
+  socket.on('enter-room', (msg) => {
+    console.log(`enter-room: `, msg);
+    socket.join(msg);
+
+    socket.emit('enter-room-confirm', msg);
   })
 
   socket.on("disconnect", (reason) => {
