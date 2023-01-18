@@ -47,8 +47,8 @@ io.on('connection', (socket) =>{
 
   //client msg receive
   socket.on('chat', (msg) => {
-    console.log('chat recv: ', msg);
     const {text, roomID} = msg;
+    console.log('chat recv: ', msg);
     if(roomID){
       socket.broadcast.to(roomID).emit('other_msg', text);
       socket.emit('chat_response', text);
