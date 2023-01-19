@@ -50,8 +50,8 @@ io.on('connection', (socket) =>{
     const {text, roomID} = msg;
     console.log('chat recv: ', msg);
     if(roomID){
-      socket.broadcast.to(roomID).emit('other_msg', text);
-      socket.emit('chat_response', text);
+      socket.broadcast.to(roomID).emit('other_msg', msg);
+      socket.emit('chat_response', msg);
     }else{
       socket.emit('chat_response', '방에 들어가세요.');
     }
