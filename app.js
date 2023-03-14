@@ -1,4 +1,4 @@
-const PORT = 3000;
+const PORT = 6000;
 
 const createError = require('http-errors');
 const express = require('express');
