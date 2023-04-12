@@ -15,7 +15,7 @@ const io = require('socket.io')(server, {
   }
 });
 
-const users = [];
+let users = [];
 
 const defaultRoom = 'koooom';
 
@@ -23,9 +23,9 @@ io.on('connection', (socket) =>{
 
   console.log('client connected. ', socket.id);
   socket.join(defaultRoom);
-  users.push({id: socket.id});
+  users.unshift({id: socket.id});
 
-  socket.emit('init', socket.id);
+  socket.emit('init', {ID: socket.id, users: users});
   socket.broadcast.to(defaultRoom).emit('user_join', socket.id)
 
   // socket.on('set_nickname_request', (msg) => {
@@ -72,6 +72,7 @@ io.on('connection', (socket) =>{
 
   socket.on("disconnect", (reason) => {
     console.log('socket disconnect: ', socket.id, reason);
+    users = users.filter(user => user.id !== socket.id);
     socket.broadcast.to(defaultRoom).emit('user_out', socket.id)
   });
 })
