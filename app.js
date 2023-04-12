@@ -26,6 +26,7 @@ io.on('connection', (socket) =>{
   users.push({id: socket.id});
 
   socket.emit('init', socket.id);
+  socket.broadcast.to(defaultRoom).emit('user_join', socket.id)
 
   // socket.on('set_nickname_request', (msg) => {
   //   console.log('set_nickname_request in. msg: ', msg);
@@ -71,6 +72,7 @@ io.on('connection', (socket) =>{
 
   socket.on("disconnect", (reason) => {
     console.log('socket disconnect: ', socket.id, reason);
+    socket.broadcast.to(defaultRoom).emit('user_out', socket.id)
   });
 })
 
