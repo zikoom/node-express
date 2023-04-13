@@ -17,39 +17,28 @@ const io = require('socket.io')(server, {
 
 // let users = [];
 
-const userSet = new Set();
+const userMap = new Map();
+
 
 const defaultRoom = 'koooom';
+
+function User({ID, name}){
+  if(!(ID && name)) return;
+  this.ID = ID;
+  this.name = name;
+}
 
 io.on('connection', (socket) =>{
 
   console.log('client connected. ', socket.id);
   socket.join(defaultRoom);
-  // users.unshift({id: socket.id});
-  userSet.add(socket.id);
 
-  socket.emit('init', {ID: socket.id, users: Array.from(userSet)});
-  socket.broadcast.to(defaultRoom).emit('user_join', socket.id)
+  const newUser = new User({ID: socket.id, name: socket.handshake.query.name});
 
-  // socket.on('set_nickname_request', (msg) => {
-  //   console.log('set_nickname_request in. msg: ', msg);
-  //   const targetUserIdx = users.findIndex(user => user.id === socket.id)
-  //   if(targetUserIdx !== -1 && users[targetUserIdx].id){
-  //     users[targetUserIdx] = {
-  //       ...users[targetUserIdx],
-  //       nickname: msg
-  //     }
-  //     console.log('user after set nickname: ', users[targetUserIdx]);
-  //     socket.emit('set_nickname_response', msg);
+  userMap.set(socket.id, newUser);
 
-  //   }else{
-  //     if(targetUserIdx === -1){
-  //       console.error('targetUserIdx is -1. msg, socketid: ', msg, socket.id)
-  //     }else if(users[targetUserIdx].id){
-  //       console.error('already have id: ', msg, socket.id)
-  //     }
-  //   }
-  // })
+  socket.emit('init', [...userMap].map( ([ID, info]) => info ));
+  socket.broadcast.to(defaultRoom).emit('user_join', newUser)
 
   //client msg receive
   socket.on('chat', (msg) => {
@@ -75,8 +64,7 @@ io.on('connection', (socket) =>{
 
   socket.on("disconnect", (reason) => {
     console.log('socket disconnect: ', socket.id, reason);
-    // users = users.filter(user => user.id !== socket.id);
-    userSet.delete(socket.id);
+    userMap.delete(socket.id);
     socket.broadcast.to(defaultRoom).emit('user_out', socket.id)
   });
 })
